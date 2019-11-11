@@ -112,9 +112,6 @@ struct Project {
 }
 
 fn main() {
-    let cli = Cli::from_args();
-    println!("{:?}", cli);
-   
     let pm_dir = create_dir_if_not_exists("~/.pm/");
     let file_name = format!("{}managed.toml", pm_dir);
     let mut project_manager = Manager::from_toml(&file_name);
