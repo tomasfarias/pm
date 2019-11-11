@@ -58,7 +58,6 @@ impl Manager {
     fn read_managed_projects_from_toml(file_name: &String) -> Result<Manager, toml::de::Error> {
         let mut file = fs::OpenOptions::new()
             .read(true)
-            .append(true)
             .open(&file_name)
             .unwrap();
 
@@ -87,6 +86,8 @@ impl Manager {
         let projects = toml::to_string(&self.projects).unwrap();
         let mut file = fs::OpenOptions::new()
             .write(true)
+            .truncate(true)
+            .create(true)
             .open(&self.file_name)
             .unwrap();
         file.write_all(projects.as_bytes());
@@ -124,6 +125,8 @@ fn main() {
         Cli::Add { path }=> project_manager.insert_project(&path),
         _ => eprintln!("Unkown command"),
     }
+
+    println!("{:?}", project_manager);
 }
 
 fn create_dir_if_not_exists(dir: &str) -> String{
